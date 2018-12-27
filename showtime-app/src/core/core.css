@@ -1,0 +1,20 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    background-color: #252424 !important;
+}
+
+#root {
+    height: 100%;
+}
+
+.centraliser {
+    height: 100vh;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}

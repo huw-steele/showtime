@@ -8,7 +8,9 @@ import { connect } from 'react-redux';
 import { maestro } from './maestro';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-interface OwnProps {  
+import '../core/core.css';
+
+interface OwnProps {
   playing: boolean;
 }
 
@@ -21,7 +23,7 @@ interface DispatchProps {
   selectVideo: (videoId: string) => void;
 }
 
-type Props = OwnProps & StateProps & DispatchProps & RouteComponentProps<{showId:string}>;
+type Props = OwnProps & StateProps & DispatchProps & RouteComponentProps<{ showId: string }>;
 
 interface State {
   isSelecting: boolean
@@ -36,8 +38,8 @@ class Show extends React.PureComponent<Props, State> {
 
   hideSelection = () => this.setState({ isSelecting: false });
   showSelection = () => this.setState({ isSelecting: true });
-  confirmSelection = (videoId: string) =>  {
-    this.setState({ isSelecting: false});    
+  confirmSelection = (videoId: string) => {
+    this.setState({ isSelecting: false });
     maestro.sendVideo(videoId);
   }
   play = () => maestro.playVideo();
@@ -47,25 +49,27 @@ class Show extends React.PureComponent<Props, State> {
   }
 
   render = () => (
-    <div>
-      <SelectVideo
-        isOpen={this.state.isSelecting}
-        close={this.hideSelection}
-        confirm={this.confirmSelection}
-      />
-      <Button
-        onClick={this.showSelection}
-      >
-        Select Video
+    <div className="centraliser">
+      <div>
+        <SelectVideo
+          isOpen={this.state.isSelecting}
+          close={this.hideSelection}
+          confirm={this.confirmSelection}
+        />
+        <Button
+          onClick={this.showSelection}
+        >
+          Select Video
+        </Button>{' '}
+        <Button
+          onClick={this.play}
+        >
+          Play
       </Button>
-      <Button
-        onClick={this.play}
-      >
-        Play
-      </Button>
-      { 
-        this.props.videoId !== null && (<Player videoId={this.props.videoId} playing={this.props.playing}/>)
-      }      
+        {
+          this.props.videoId !== null && (<Player videoId={this.props.videoId} playing={this.props.playing} />)
+        }
+      </div>
     </div>
   );
 

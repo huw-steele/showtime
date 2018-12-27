@@ -5,7 +5,7 @@ import { RootState } from '../reducer';
 import { connect } from 'react-redux';
 import { History } from 'history';
 import { createCreateShowAction } from './reducer';
-
+import '../core/core.css';
 interface StateProps {
   creating: boolean;
 }
@@ -17,21 +17,21 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps & RouteComponentProps;
 
 const Home = (props: Props) => (
-  <div>
+  <div className="centraliser">
     <Button
       color="primary"
       onClick={() => { if (!props.creating) props.createShow(props.history) }}
     >
-      { !props.creating ? 'Create New Show' : 'Creating...' }
+      {!props.creating ? 'Create New Show' : 'Creating...'}
     </Button>
   </div>
 );
 
-const mapStateToProps = (state: RootState) : StateProps => ({
+const mapStateToProps = (state: RootState): StateProps => ({
   creating: state.home.creating
 });
 
-const mapDispatchToProps = (dispatch: any) : DispatchProps => ({
+const mapDispatchToProps = (dispatch: any): DispatchProps => ({
   createShow: (history) => dispatch(createCreateShowAction(history))
 });
 
