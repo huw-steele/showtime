@@ -32,7 +32,9 @@ namespace Showtime.Api
                 }));
 
             services.AddMvc();
+            
             services.AddTransient<ShowService>();
+            services.AddSingleton<ShowSocketManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,8 +44,9 @@ namespace Showtime.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseWebSockets();
             app.UseCors("MyPolicy");
-            app.UseMvc();
+            app.UseMvc();            
         }
     }
 }

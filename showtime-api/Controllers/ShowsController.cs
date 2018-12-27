@@ -11,10 +11,12 @@ namespace Showtime.Api.Controllers
     public class ShowsController : Controller
     {
         private readonly ShowService _showService;
+        private readonly ShowSocketManager _showSocketManager;
 
-        public ShowsController(ShowService showService)
+        public ShowsController(ShowService showService, ShowSocketManager manager)
         {
             _showService = showService;
+            _showSocketManager = manager;
         }
 
         [HttpPost]
@@ -22,6 +24,16 @@ namespace Showtime.Api.Controllers
         {
             var id = _showService.CreateShow();
             return Ok(id);
+        }
+
+        [HttpGet("{showId:guid}/connect")]
+        public async Task<IActionResult> Connect(Guid showId)
+        {
+            if (!HttpContext.WebSockets.IsWebSocketRequest) return BadRequest();
+            using (var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync()) {
+                await _showSocketManager.Connect(showId, webSocket, HttpContext.RequestAborted);
+            }
+            return new EmptyResult();
         }
     }
 }

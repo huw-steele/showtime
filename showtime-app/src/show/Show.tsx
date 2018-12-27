@@ -5,6 +5,8 @@ import SelectVideo from './SelectVideo';
 import { RootState } from '../reducer';
 import { createSetVideoAction } from './reducer';
 import { connect } from 'react-redux';
+import { maestro } from './maestro';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 interface OwnProps {  
   playing: boolean;
@@ -19,7 +21,7 @@ interface DispatchProps {
   selectVideo: (videoId: string) => void;
 }
 
-type Props = OwnProps & StateProps & DispatchProps;
+type Props = OwnProps & StateProps & DispatchProps & RouteComponentProps<{showId:string}>;
 
 interface State {
   isSelecting: boolean
@@ -35,8 +37,13 @@ class Show extends React.PureComponent<Props, State> {
   hideSelection = () => this.setState({ isSelecting: false });
   showSelection = () => this.setState({ isSelecting: true });
   confirmSelection = (videoId: string) =>  {
-    this.setState({ isSelecting: false});
-    this.props.selectVideo(videoId);
+    this.setState({ isSelecting: false});    
+    maestro.sendVideo(videoId);
+  }
+  play = () => maestro.playVideo();
+
+  componentDidMount = () => {
+    maestro.connect(this.props.match.params.showId);
   }
 
   render = () => (
@@ -50,6 +57,11 @@ class Show extends React.PureComponent<Props, State> {
         onClick={this.showSelection}
       >
         Select Video
+      </Button>
+      <Button
+        onClick={this.play}
+      >
+        Play
       </Button>
       { 
         this.props.videoId !== null && (<Player videoId={this.props.videoId} playing={this.props.playing}/>)
@@ -69,4 +81,4 @@ const mapDispatchToProps = (dispatch: any): DispatchProps => ({
   selectVideo: (videoId: string) => (dispatch(createSetVideoAction(videoId)))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Show);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Show));

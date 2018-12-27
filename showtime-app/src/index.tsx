@@ -9,10 +9,14 @@ import { Provider } from 'react-redux';
 import rootReducer from './reducer';
 import thunk from 'redux-thunk';
 
+import { maestro } from './show/maestro';
+
 let store = createStore(
   rootReducer,
   applyMiddleware(thunk)
 );
+
+maestro.init(store);
 
 ReactDOM.render(
   <Provider store={store} >
