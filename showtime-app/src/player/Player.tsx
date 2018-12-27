@@ -22,6 +22,7 @@ class Player extends React.Component<OwnProps, State> {
   }
 
   shouldComponentUpdate = (nextProps: OwnProps, nextState: State): boolean => {
+    if (!this.player) return true;
     if (nextProps.videoId !== this.props.videoId && nextProps.videoId !== null) {
       this.player.cueVideoById(nextProps.videoId);
     }
