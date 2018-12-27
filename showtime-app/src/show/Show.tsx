@@ -7,8 +7,8 @@ import { createSetVideoAction } from './reducer';
 import { connect } from 'react-redux';
 import { maestro } from './maestro';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-
 import '../core/core.css';
+import './show.css';
 
 interface OwnProps {
   playing: boolean;
@@ -51,21 +51,23 @@ class Show extends React.PureComponent<Props, State> {
   render = () => (
     <div className="centraliser">
       <div>
-        <SelectVideo
-          isOpen={this.state.isSelecting}
-          close={this.hideSelection}
-          confirm={this.confirmSelection}
-        />
-        <Button
-          onClick={this.showSelection}
-        >
-          Select Video
-        </Button>{' '}
-        <Button
-          onClick={this.play}
-        >
-          Play
-      </Button>
+        <div className="show-commands">
+          <SelectVideo
+            isOpen={this.state.isSelecting}
+            close={this.hideSelection}
+            confirm={this.confirmSelection}
+          />
+          <Button
+            onClick={this.showSelection}
+          >
+            Select Video
+          </Button>{'  '}
+          <Button
+            onClick={this.play}
+          >
+            Play
+          </Button>
+        </div>
         {
           this.props.videoId !== null && (<Player videoId={this.props.videoId} playing={this.props.playing} />)
         }
