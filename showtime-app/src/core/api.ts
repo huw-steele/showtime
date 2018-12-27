@@ -1,6 +1,6 @@
 export const createShow = () => {
   return fetch(
-    'http://localhost:5000/api/shows',
+    'http://94.173.180.77:89/api/shows',
     {
       method: 'POST'
     }

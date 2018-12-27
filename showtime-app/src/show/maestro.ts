@@ -12,7 +12,7 @@ class Maestro {
   }
 
   connect = (showId: string) => {
-    this.socket = new WebSocket(`ws://localhost:5000/api/shows/${showId}/connect`);
+    this.socket = new WebSocket(`ws://94.173.180.77:89/api/shows/${showId}/connect`);
 
     this.socket.onmessage = this.handleMessage;
   }
