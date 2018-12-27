@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Showtime.Api.Models;
 
 namespace Showtime.Api.Services
 {
@@ -7,12 +8,12 @@ namespace Showtime.Api.Services
     {
         public readonly Dictionary<Guid, Show> _shows = new Dictionary<Guid, Show>();
 
-        public (Guid, Show) CreateShow()
+        public Guid CreateShow()
         {
             var newShow = new Show();
             var id = Guid.NewGuid();
             _shows.Add(id, newShow);
-            return (id, newShow);
+            return id;
         }
     }
 }

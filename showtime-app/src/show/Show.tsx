@@ -51,7 +51,8 @@ class Show extends React.PureComponent<Props, State> {
       >
         Select Video
       </Button>
-      { this.props.videoId !== null && (<Player videoId={this.props.videoId} playing={this.props.playing}/>)
+      { 
+        this.props.videoId !== null && (<Player videoId={this.props.videoId} playing={this.props.playing}/>)
       }      
     </div>
   );

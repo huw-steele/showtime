@@ -20,11 +20,8 @@ namespace Showtime.Api.Controllers
         [HttpPost]
         public IActionResult Create()
         {
-            var (id, show) = _showService.CreateShow();
-            return Ok(new Responses.Show
-            {
-                Id = id
-            });
+            var id = _showService.CreateShow();
+            return Ok(id);
         }
     }
 }
