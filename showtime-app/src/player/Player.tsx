@@ -54,6 +54,8 @@ class Player extends React.Component<OwnProps, State> {
         onPause={this.props.pause}
         videoId={this.props.videoId}
         opts={{
+          width: '1280',
+          height: '720',
           playerVars: {
             controls: 1
           }
