@@ -17,6 +17,7 @@ interface OwnProps {
 interface StateProps {
   videoId: string | null;
   playing: boolean;
+  startTime: number;
 }
 
 interface DispatchProps {
@@ -42,7 +43,8 @@ class Show extends React.PureComponent<Props, State> {
     this.setState({ isSelecting: false });
     maestro.sendVideo(videoId);
   }
-  play = () => maestro.playVideo();
+  play = (startTime: number) => maestro.playVideo(startTime);
+  pause = () => maestro.pauseVideo();
 
   componentDidMount = () => {
     maestro.connect(this.props.match.params.showId);
@@ -62,14 +64,20 @@ class Show extends React.PureComponent<Props, State> {
           >
             Select Video
           </Button>{'  '}
-          <Button
+          {/* <Button
             onClick={this.play}
           >
             Play
-          </Button>
+          </Button> */}
         </div>
         {
-          this.props.videoId !== null && (<Player videoId={this.props.videoId} playing={this.props.playing} />)
+          this.props.videoId !== null && (<Player 
+            videoId={this.props.videoId}
+            playing={this.props.playing}
+            play={this.play} 
+            pause={this.pause}
+            startTime={this.props.startTime}
+          />)
         }
       </div>
     </div>
@@ -80,7 +88,8 @@ class Show extends React.PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState): StateProps => ({
   videoId: state.show.videoId,
-  playing: state.show.playing
+  playing: state.show.playing,
+  startTime: state.show.startTime
 });
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({

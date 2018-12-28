@@ -1,6 +1,7 @@
 import { Action } from "redux";
 import { Reducer } from "react";
 import { maestro } from "./maestro";
+import { number } from "prop-types";
 
 // STATE
 
@@ -13,13 +14,15 @@ export interface ShowState {
   videoId: string | null;
   playing: boolean;
   countdown: number;
+  startTime: number;
 }
 
 const defaultState: ShowState = {
   connected: false,
   videoId: null,
   playing: false,
-  countdown: 0
+  countdown: 0,
+  startTime: 0
 };
 
 // ACTIONS
@@ -43,11 +46,25 @@ interface ShowConnectFailureAction extends Action {
   type: "SHOW/CONNECT_FAILURE";
 }
 
-interface PlayAction extends Action {
+interface PlayAction extends PayloadAction {
   type: "SHOW/PLAY";
+  payload: {
+    startTime: number;
+  }
 }
 
-type ShowActions = SetVideoAction | ShowConnectAction | ShowConnectSuccessAction | ShowConnectFailureAction | PlayAction;
+interface PauseAction extends Action {
+  type: "SHOW/PAUSE";
+}
+
+interface SetStartAction extends PayloadAction {
+  type: "SHOW/SET_START";
+  payload: {
+    start: number;
+  }
+}
+
+type ShowActions = SetVideoAction | ShowConnectAction | ShowConnectSuccessAction | ShowConnectFailureAction | PlayAction | PauseAction | SetStartAction;
 
 // CREATORS
 
@@ -74,8 +91,15 @@ const connectionFailed = (): ShowConnectFailureAction => ({
   type: "SHOW/CONNECT_FAILURE"
 });
 
-export const createPlayAction = (): PlayAction => ({
-  type: "SHOW/PLAY"
+export const createPlayAction = (startTime: number): PlayAction => ({
+  type: "SHOW/PLAY",
+  payload: {
+    startTime
+  }
+});
+
+export const createPauseAction = (): PauseAction=> ({
+  type: "SHOW/PAUSE"
 });
 
 // REDUCER
@@ -89,7 +113,9 @@ const showReducer: Reducer<ShowState | undefined, PayloadAction> = (state: ShowS
     case "SHOW/SET_VIDEO":
       return { ...state, playing: false, videoId: action.payload.videoId };
     case "SHOW/PLAY":
-      return { ...state, playing: true };
+      return { ...state, playing: true, startTime: action.payload.startTime };
+    case "SHOW/PAUSE":
+      return { ...state, playing: false };
     default:
       return state;
   }
