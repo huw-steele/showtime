@@ -42,7 +42,7 @@ namespace Showtime.Api
 
                 foreach (var socket in bag)
                 {
-                    if (socket.State != WebSocketState.Open)
+                    if (socket.State != WebSocketState.Open && socket != s)
                     {
                         continue;
                     }

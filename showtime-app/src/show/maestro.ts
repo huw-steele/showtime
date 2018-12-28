@@ -28,14 +28,19 @@ class Maestro {
     this.socket.send(`VIDEO%%${videoId}`);
   }
 
-  playVideo = () => {
+  playVideo = (startTime: number) => {
     if (this.socket === null) return;
-    this.socket.send(`PLAY`);
+    this.socket.send(`PLAY%%${startTime}`);
   }
 
   pauseVideo = () => {
     if (this.socket === null) return;
     this.socket.send(`PAUSE`);
+  }
+
+  setStart = (start: number) => {
+    if (this.socket === null) return;
+    this.socket.send(`START%%${start}`);
   }
 
   private handleMessage = (ev: MessageEvent) => {
@@ -46,7 +51,7 @@ class Maestro {
         this.store.dispatch(createSetVideoAction(parts[1]));
         break;
       case "PLAY":
-        this.store.dispatch(createPlayAction());
+        this.store.dispatch(createPlayAction(parts[1]));
         break;
       case "PAUSE":
         this.store.dispatch(createPauseAction());
