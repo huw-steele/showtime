@@ -43,6 +43,7 @@ class Show extends React.PureComponent<Props, State> {
     maestro.sendVideo(videoId);
   }
   play = () => maestro.playVideo();
+  pause = () => maestro.pauseVideo();
 
   componentDidMount = () => {
     maestro.connect(this.props.match.params.showId);
@@ -62,14 +63,14 @@ class Show extends React.PureComponent<Props, State> {
           >
             Select Video
           </Button>{'  '}
-          <Button
+          {/* <Button
             onClick={this.play}
           >
             Play
-          </Button>
+          </Button> */}
         </div>
         {
-          this.props.videoId !== null && (<Player videoId={this.props.videoId} playing={this.props.playing} />)
+          this.props.videoId !== null && (<Player videoId={this.props.videoId} playing={this.props.playing} play={this.play} pause={this.pause} />)
         }
       </div>
     </div>

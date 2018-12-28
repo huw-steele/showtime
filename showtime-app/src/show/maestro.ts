@@ -1,5 +1,5 @@
 import { Store } from "redux";
-import { createSetVideoAction, createPlayAction } from "./reducer";
+import { createSetVideoAction, createPlayAction, createPauseAction } from "./reducer";
 
 
 class Maestro {
@@ -33,6 +33,11 @@ class Maestro {
     this.socket.send(`PLAY`);
   }
 
+  pauseVideo = () => {
+    if (this.socket === null) return;
+    this.socket.send(`PAUSE`);
+  }
+
   private handleMessage = (ev: MessageEvent) => {
     if (this.store === null) return;
     let parts = ev.data.split("%%");
@@ -42,6 +47,9 @@ class Maestro {
         break;
       case "PLAY":
         this.store.dispatch(createPlayAction());
+        break;
+      case "PAUSE":
+        this.store.dispatch(createPauseAction());
         break;
     }
   }

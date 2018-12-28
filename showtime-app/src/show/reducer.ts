@@ -47,7 +47,11 @@ interface PlayAction extends Action {
   type: "SHOW/PLAY";
 }
 
-type ShowActions = SetVideoAction | ShowConnectAction | ShowConnectSuccessAction | ShowConnectFailureAction | PlayAction;
+interface PauseAction extends Action {
+  type: "SHOW/PAUSE";
+}
+
+type ShowActions = SetVideoAction | ShowConnectAction | ShowConnectSuccessAction | ShowConnectFailureAction | PlayAction | PauseAction;
 
 // CREATORS
 
@@ -78,6 +82,10 @@ export const createPlayAction = (): PlayAction => ({
   type: "SHOW/PLAY"
 });
 
+export const createPauseAction = (): PauseAction=> ({
+  type: "SHOW/PAUSE"
+});
+
 // REDUCER
 
 const showReducer: Reducer<ShowState | undefined, PayloadAction> = (state: ShowState | undefined = defaultState, action: ShowActions) => {
@@ -90,6 +98,8 @@ const showReducer: Reducer<ShowState | undefined, PayloadAction> = (state: ShowS
       return { ...state, playing: false, videoId: action.payload.videoId };
     case "SHOW/PLAY":
       return { ...state, playing: true };
+    case "SHOW/PAUSE":
+      return { ...state, playing: false };
     default:
       return state;
   }
